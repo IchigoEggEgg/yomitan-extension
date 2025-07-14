@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>よみたん VOICEVOX 控制面板</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 10px;
+            width: 320px;
+        }
+
+        #tabs {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        #tabs button {
+            flex: 1;
+            padding: 6px 0;
+            font-size: 14px;
+            border: none;
+            background: #eee;
+            cursor: pointer;
+        }
+
+        #tabs button.active {
+            background: #d0eaff;
+            font-weight: bold;
+        }
+
+        .tab {
+            display: none;
+        }
+
+        .tab.active {
+            display: block;
+        }
+
+        .slider-group {
+            margin-bottom: 12px;
+        }
+
+        .slider-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        input[type=range] {
+            width: 100%;
+        }
+
+        .slider-value {
+            font-size: 13px;
+            text-align: right;
+            color: #555;
+        }
+
+        .speaker {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .speaker img {
+            width: 48px;
+            height: 48px;
+            margin-right: 10px;
+            border-radius: 6px;
+        }
+
+        .speaker.active {
+            background: #e0f0ff;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        button {
+            padding: 6px 12px;
+            font-size: 14px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="tabs">
+        <button data-tab="settingsTab" class="active">參數調整</button>
+        <button data-tab="characterTab">選擇角色</button>
+    </div>
+
+    <div id="settingsTab" class="tab active">
+        <div class="slider-group">
+            <label for="speedScale">語速(Speed)</label>
+            <input type="range" id="speedScale" min="0.5" max="2" step="0.01" value="1">
+            <div class="slider-value" id="speedScaleVal">1.00</div>
+        </div>
+        <div class="slider-group">
+            <label for="pitchScale">音高(Pitch)</label>
+            <input type="range" id="pitchScale" min="-0.15" max="0.15" step="0.01" value="0">
+            <div class="slider-value" id="pitchScaleVal">0.00</div>
+        </div>
+        <div class="slider-group">
+            <label for="intonationScale">抑揚(Intonation)</label>
+            <input type="range" id="intonationScale" min="0" max="2" step="0.01" value="1">
+            <div class="slider-value" id="intonationScaleVal">1.00</div>
+        </div>
+        <div class="slider-group">
+            <label for="volumeScale">音量(Volume)</label>
+            <input type="range" id="volumeScale" min="0" max="2" step="0.01" value="1">
+            <div class="slider-value" id="volumeScaleVal">1.00</div>
+        </div>
+        <div class="slider-group">
+            <label for="prePhonemeLength">前無音長度(Pre-silence)</label>
+            <input type="range" id="prePhonemeLength" min="0" max="1.5" step="0.01" value="0.1">
+            <div class="slider-value" id="prePhonemeLengthVal">0.10</div>
+        </div>
+        <div class="slider-group">
+            <label for="postPhonemeLength">後無音長度(Post-silence)</label>
+            <input type="range" id="postPhonemeLength" min="0" max="1.5" step="0.01" value="0.1">
+            <div class="slider-value" id="postPhonemeLengthVal">0.10</div>
+        </div>
+        <div class="slider-group">
+            <label>句讀點停頓設定(Pause)</label>
+            <label><input type="radio" name="pauseMode" value="scale" checked> 使用模型預測 + 倍率調整</label>
+            <label><input type="radio" name="pauseMode" value="fixed"> 使用固定秒數</label>
+        </div>
+        <div class="slider-group" id="pauseLengthScaleGroup">
+            <label for="pauseLengthScale">停頓倍率(pauseLengthScale)</label>
+            <input type="range" id="pauseLengthScale" min="0" max="2" step="0.01" value="1">
+            <div class="slider-value" id="pauseLengthScaleVal">1.00</div>
+        </div>
+        <div class="slider-group" id="pauseLengthGroup" style="display: none;">
+            <label for="pauseLength">固定停頓秒數(pauseLength)</label>
+            <input type="range" id="pauseLength" min="0" max="2" step="0.01" value="0.5">
+            <div class="slider-value" id="pauseLengthVal">0.50</div>
+        </div>
+        <div class="slider-group">
+            <label><input type="checkbox" id="outputStereo"> 立體聲輸出(Stereo Output)</label>
+        </div>
+        <button id="resetPreset">回到預設</button>
+    </div>
+
+    <div id="characterTab" class="tab">
+        <div id="speakerList">載入中...</div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
