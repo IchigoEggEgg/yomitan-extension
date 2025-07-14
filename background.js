@@ -1,8 +1,16 @@
 let currentSpeaker = 108;
 
+// 啟動時從 local storage 還原speaker
+chrome.storage.local.get("selectedSpeaker", (data) => {
+  if (typeof data.selectedSpeaker === "number") {
+    currentSpeaker = data.selectedSpeaker;
+  }
+});
+
 chrome.runtime.onMessage.addListener((msg, _, sendResponse) => {
   if (msg.type === "SET_SPEAKER") {
-    currentSpeaker = msg.speaker;
+    currentSpeaker = msg.speaker; //更新currentSpeaker
+    chrome.storage.local.set({ selectedSpeaker: msg.speaker }); //存到local
     fetch(`http://localhost:50021/initialize_speaker?speaker=${msg.speaker}&skip_reinit=true`, {
       method: "POST"
     })

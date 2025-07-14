@@ -114,7 +114,10 @@ function setupResetButton() {
 }
 
 // ----------------------- 角色載入 -----------------------
-let selectedStyleId = parseInt(localStorage.getItem("selectedStyleId") || "108");
+let selectedStyleId = 108;
+chrome.storage.local.get("selectedSpeaker", (data) => {
+    selectedStyleId = data.selectedSpeaker ?? 108;
+});
 
 async function loadSpeakers() {
     const res = await fetch(`${API_BASE}/speakers`);
@@ -146,7 +149,6 @@ async function loadSpeakers() {
 
             div.onclick = () => {
                 selectedStyleId = style.id;
-                localStorage.setItem("selectedStyleId", selectedStyleId.toString());
                 chrome.runtime.sendMessage({ type: "SET_SPEAKER", speaker: selectedStyleId });
 
                 const img = new Image();
